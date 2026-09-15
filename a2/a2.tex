@@ -78,14 +78,40 @@
     You can also use \texttt{utils.euclidean\string_dist\string_squared}, which computes the squared Euclidean distances between all pairs of points in two matrices. Also, please note that you will have to write code in the \texttt{main.py} file in order to do parts 2 and 3 of this question.
     \begin{enumerate}
         \item Write the \texttt{predict} function. Note that you can use the \texttt{utils.mode()} function in your implementation, and you can rely on this function to correctly handle potential ties when assigning a label to a training data point. \ask{Submit this code.} \pts{5}
+        \begin{answer}
+            \begin{lstlisting}[language=Python]
+                def predict(self, X_hat):
+                distances = euclidean_dist_squared(self.X, X_hat) 
 
+                numTest = X_hat.shape[0]
+                y_hat = np.zeros(numTest, dtype=self.y.dtype)
+
+                for i in range(numTest):
+                    indices = np.argsort(distances[:, i])[:self.k]
+                    y_hat[i] = utils.mode(self.y[indices])
+                
+                return y_hat
+            \end{lstlisting}
+        \end{answer}
         \item \ask{Report the training and test error} obtained on the \emph{citiesSmall} dataset for $k=1$, $k=3$, and $k=10$. \emph{Optionally}, try running a decision tree on this same train/test split; which gets better test accuracy? \pts{4}
-
+        \begin{answer} \\
+            $k=1$: Training Error = $0.0$, Test Error = $0.065$ \\
+            $k=3$: Training Error = $0.028$, Test Error = $0.066$ \\
+            $k=10$: Training Error = $0.058$, Test Error = $0.085$
+        \end{answer}
         \item Generate a plot with \texttt{utils.plot\_classifier} on the \emph{citiesSmall} dataset (plotting the training points) for $k=1$, using your implementation of kNN. \ask{Include the plot here.} To see if your implementation makes sense, you might want to check against the plot using \texttt{sklearn.neighbors.KNeighborsClassifier}. Remember that the assignment 1 code had examples of plotting with this function and saving the result, if that would be helpful. \pts{2}
-
+        
+        \centerfig{0.7}{./figs/q1_knn_k1.pdf}
+        
         \item Why is the training error $0$ for $k=1$? \pts{2}
+        \begin{answer}
+            Training error is 0 for $k=1$ because the nearest neighbor to each training example is itself, so each example is given the correct label. 
+        \end{answer}
 
         \item Recall that we want to choose hyper-parameters so that the test error is (hopefully) minimized. How would you choose $k$? \pts{2}
+        \begin{answer}
+            With cross validation!
+        \end{answer}
 
     \end{enumerate}
 
@@ -102,18 +128,79 @@
 
         \ask{Submit this code}, following the general submission instructions to include your code in your results file. \pts{5}
 
+        \begin{answer}
+            \begin{lstlisting}[language=Python]
+                def q2():
+                    dataset = load_dataset('ccdebt.pkl')
+                    X = dataset['X']
+                    y = dataset['y']
+                    X_test = dataset['Xtest']
+                    y_test = dataset['ytest']
+
+                    ks = list(range(1, 30, 4))
+
+                    n = X.shape[0]
+                    n_folds = 10
+                    fold_size = n // n_folds
+
+                    cv_accs = np.zeros(len(ks))
+                    test_accs = np.zeros(len(ks))
+                    train_errs = np.zeros(len(ks))
+
+                    for index, k in enumerate(ks):
+                        fold_accs = np.zeros(n_folds)
+
+                        for fold in range(n_folds):
+                            mask = np.ones(n, dtype=bool)
+
+                            start = fold * fold_size
+                            end = start + fold_size
+
+                            mask[start:end] = False #False = Test
+
+                            X_train_fold = X[mask]
+                            y_train_fold = y[mask]
+                            X_validation = X[~mask]
+                            y_validation = y[~mask]
+
+                            model = KNN(k)
+                            model.fit(X_train_fold, y_train_fold)
+
+                            y_hat_fold = model.predict(X_validation)
+                            fold_accs[fold] = np.mean(y_hat_fold == y_validation)
+
+                        cv_accs[index] = np.mean(fold_accs)
+
+                        model = KNN(k)
+                        model.fit(X, y)
+
+                        y_hat_train = model.predict(X)
+                        train_errs[index] = np.mean(y_hat_train != y)
+
+                        y_hat_test = model.predict(X_test)
+                        test_accs[index] = np.mean(y_hat_test == y_test)
+            \end{lstlisting}
+        \end{answer}
 
 
         \item The point of cross-validation is to get a sense of what the test error for a particular value of $k$ would be. Implement, similarly to the code you wrote for question 1.2, a loop to compute the test accuracy for each value of $k$ above. \ask{Submit a plot the cross-validation and test accuracies as a function of $k$.} Make sure your plot has axis labels and a legend. \pts{5}
 
-        %
+        \centerfig{0.7}{./figs/q2_cv_test_accuracy.pdf}
 
         \item Which $k$ would cross-validation choose in this case? Which $k$ has the best test accuracy? Would the cross-validation $k$ do okay (qualitatively) in terms of test accuracy? \pts{2}
 
-        %
+        \begin{answer}
+            Cross validation would choose $k=17$, while $k=9$ has the best test accuracy. Qualitatively yes, the cross-validation $k$ does okay in terms of test accuracy, peaking a little after test accuracy does. 
+        \end{answer}
 
         \item Separately, \ask{submit a plot of the training error as a function of $k$. How would the $k$ with best training error do in terms of test error, qualitatively?} \pts{3}
-        %
+        
+        \centerfig{0.7}{./figs/q2_train_error.pdf}
+
+        \begin{answer}
+            The $k$ with the best training error is $k=1$, with it's error being 0, but in terms of test error it performs the worst, since test accuracy is at its lowest when $k=1$. 
+        \end{answer}
+
     \end{enumerate}
 
 
@@ -163,9 +250,13 @@
     \ask{Compute the estimates of the class prior probabilities, which I also called the ``baseline spam-ness'' in class.} (you don't need to show any work):
     \begin{itemize}
         \item $\Pr(\text{spam})$.
-        %
+        \begin{answer}
+            $\frac{6}{10}$
+        \end{answer}
         \item $\Pr(\text{not spam})$.
-        %
+        \begin{answer}
+            $\frac{4}{10}$
+        \end{answer}
     \end{itemize}
 
     \subsubsection{Conditional probabilities \pts{1}}
@@ -173,23 +264,40 @@
     \ask{Compute the estimates of the 6 conditional probabilities required by Na\"ive Bayes for this example}  (you don't need to show any work):
     \begin{itemize}
         \item $\Pr(\text{$<$your name$>$} = 1  \mid \text{spam})$.
-        %
+        \begin{answer}
+            $\frac{1}{6}$
+        \end{answer}
         \item $\Pr(\text{lottery} = 1 \mid \text{spam})$.
-        %
+        \begin{answer}
+            $\frac{5}{6}$
+        \end{answer}
         \item $\Pr(\text{Venmo} = 0  \mid \text{spam})$.
-        %
+        \begin{answer}
+            $\frac{2}{6}$
+        \end{answer}
         \item $\Pr(\text{$<$your name$>$} = 1  \mid \text{not spam})$.
-        %
+        \begin{answer}
+            $\frac{3}{4}$
+        \end{answer}
         \item $\Pr(\text{lottery} = 1  \mid \text{not spam})$.
-        %
+        \begin{answer}
+            $\frac{1}{4}$
+        \end{answer}
         \item $\Pr(\text{Venmo} = 0  \mid \text{not spam})$.
-        %
+        \begin{answer}
+            $\frac{3}{4}$
+        \end{answer}
     \end{itemize}
 
     \subsubsection{Prediction \pts{2}}
 
     \ask{Under the naive Bayes model and your estimates of the above probabilities, what is the most likely label for the test example? \textbf{(Show your work.)}}
-    %
+    
+    \begin{answer} \\
+            $p(y = spam \mid \hat{x}) = \frac{1}{6} * \frac{5}{6} * \frac{2}{6} * \frac{6}{10} = 0.0278$ \\
+            $p(y = not spam \mid \hat{x}) = \frac{3}{4} * \frac{1}{4} * \frac{3}{4} * \frac{4}{10} = 0.0563$ \\
+            Not spam is the most likely label for the test example.
+    \end{answer}
 
     \subsubsection{Simulating Laplace Smoothing with Data \pts{1}}
     \label{laplace.conceptual}

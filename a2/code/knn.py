@@ -20,6 +20,19 @@ class KNN:
         self.y = y
 
     def predict(self, X_hat):
-        """YOUR CODE HERE FOR Q1"""
-        raise NotImplementedError()
+        #Calculating distances
+        distances = euclidean_dist_squared(self.X, X_hat) 
+
+        #Setting up out matrix
+        numTest = X_hat.shape[0]
+        y_hat = np.zeros(numTest, dtype=self.y.dtype)
+
+        for i in range(numTest):
+            #Indices of k nearest for current test example
+            indices = np.argsort(distances[:, i])[:self.k]
+
+            y_hat[i] = utils.mode(self.y[indices])
+        
+        return y_hat
+        
 

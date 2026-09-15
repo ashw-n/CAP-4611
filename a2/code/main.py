@@ -32,10 +32,25 @@ def q1():
     X_test = dataset["Xtest"]
     y_test = dataset["ytest"]
 
-    """YOUR CODE HERE FOR Q1. Also modify knn.py to implement KNN predict."""
-    raise NotImplementedError()
+    for k in [1, 3, 10]:
+        model = KNN(k)
+        model.fit(X, y)
 
+        y_hat_train = model.predict(X)
+        error_train = np.mean(y_hat_train != y)
 
+        y_hat_test = model.predict(X_test)
+        error_test = np.mean(y_hat_test != y_test)
+
+        print(f"k={k}: training error = {error_train:.3f}, test error = {error_test:.3f}")
+
+    model = KNN(1)
+    model.fit(X,y)
+    plot_classifier(model, X, y)
+
+    fname = Path("..", "figs", "q1_knn_k1.pdf")
+    plt.savefig(fname)
+    print(f"Figure saved as {fname}")
 
 @handle("2")
 def q2():
@@ -46,8 +61,84 @@ def q2():
     y_test = dataset["ytest"]
 
     ks = list(range(1, 30, 4))
-    """YOUR CODE HERE FOR Q2"""
-    raise NotImplementedError()
+
+    n = X.shape[0]
+    n_folds = 10
+    fold_size = n // n_folds
+
+    cv_accs = np.zeros(len(ks))
+    test_accs = np.zeros(len(ks))
+    train_errs = np.zeros(len(ks))
+
+    for index, k in enumerate(ks): #Enumerate makes it iterable
+        fold_accs = np.zeros(n_folds)
+
+        for fold in range(n_folds):
+            mask = np.ones(n, dtype=bool)
+
+            start = fold * fold_size
+            end = start + fold_size
+
+            mask[start:end] = False #False = Test
+
+            X_train_fold = X[mask]
+            y_train_fold = y[mask]
+            X_validation = X[~mask]
+            y_validation = y[~mask]
+
+            model = KNN(k)
+            model.fit(X_train_fold, y_train_fold)
+
+            y_hat_fold = model.predict(X_validation)
+            fold_accs[fold] = np.mean(y_hat_fold == y_validation)
+
+        cv_accs[index] = np.mean(fold_accs)
+
+        model = KNN(k)
+        model.fit(X, y)
+
+        y_hat_train = model.predict(X)
+        train_errs[index] = np.mean(y_hat_train != y)
+
+        y_hat_test = model.predict(X_test)
+        test_accs[index] = np.mean(y_hat_test == y_test)
+
+        print(f"k={k}: cv accuracy = {cv_accs[index]:.3f}, "
+              f"test accuracy = {test_accs[index]:.3f}, "
+              f"training error = {train_errs[index]:.3f}")
+
+    best_cv_k = ks[np.argmax(cv_accs)]
+    best_test_k = ks[np.argmax(test_accs)]
+    print(f"Best k by CV accuracy: {best_cv_k}")
+    print(f"Best k by test accuracy: {best_test_k}")
+
+    #CV and Test Acc vs k
+    plt.figure()
+    plt.plot(ks, cv_accs, marker="o", label="Cross-Validation Accuracy")
+    plt.plot(ks, test_accs, marker="o", label="Test Accuracy")
+    plt.xlabel("k")
+    plt.ylabel("Accuracy")
+    plt.title("CV and Test Accuracy vs. k")
+    plt.legend()
+
+    fname = Path("..", "figs", "q2_cv_test_accuracy.pdf")
+    plt.savefig(fname)
+    print(f"Figure saved as {fname}")
+
+    #Train Err vs k
+    plt.figure()
+    plt.plot(ks, train_errs, marker="o", color="tab:red", label="Training error")
+    plt.xlabel("k")
+    plt.ylabel("Training error")
+    plt.title("Training error vs. k")
+    plt.legend()
+
+    fname = Path("..", "figs", "q2_train_error.pdf")
+    plt.savefig(fname)
+    print(f"Figure saved as {fname}")
+
+
+
 
 
 
