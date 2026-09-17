@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1789438583.77672 "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" "a2.pdf" "a2" 1789438584.4768 0
+["pdflatex"] 1789603041.82034 "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" "a2.pdf" "a2" 1789603042.4962 0
   "C:/Users/ashwi/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789164142 80937 91001db6d4ae332437b4b739862cda02 ""
   "C:/Users/ashwi/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1787871388 11548 3f832d2684e39ba0c1af8281a4178bba ""
   "C:/Users/ashwi/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1787871394 13367606 d09003a55058d2549b9661d404d1b423 ""
@@ -117,10 +117,10 @@
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty" 1780057721 7532 f4ccdd43fe3dcc1fb2fb9431b10aa336 ""
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/upquote/upquote.sty" 1335534756 1088 517e01cde97c1c0baf72e69d43aa5a2e ""
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "a2.aux" 1789438584 3512 c80d627ac4413bc6f312e44c402e59ac "pdflatex"
-  "a2.out" 1789438584 4064 b4bc441e8e68ab203eec89d859eb13ef "pdflatex"
-  "a2.tex" 1789438583 27948 867e76c02833a0b3ffa8ed91df6e3bda ""
-  "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" 1789438583 27948 867e76c02833a0b3ffa8ed91df6e3bda ""
+  "a2.aux" 1789603042 3512 c80d627ac4413bc6f312e44c402e59ac "pdflatex"
+  "a2.out" 1789603042 4064 b4bc441e8e68ab203eec89d859eb13ef "pdflatex"
+  "a2.tex" 1789603041 28682 436e3502aba64ed23a60f59557fe2963 ""
+  "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" 1789603041 28682 436e3502aba64ed23a60f59557fe2963 ""
   "figs/kmeans_basic.png" 1789246569 32722 3dad64cf23a2590b447c4e1eb67369c1 ""
   "figs/kmeans_good.png" 1789246569 37157 b82ec2bcfc3ada76bc0c0038c2f5e567 ""
   "figs/q1_knn_k1.pdf" 1789420929 93965 00da23f5e1485761282e63ca06bb06ac ""

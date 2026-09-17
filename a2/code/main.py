@@ -153,9 +153,14 @@ def q3_2():
     groupnames = dataset["groupnames"]
     wordlist = dataset["wordlist"]
 
-    """YOUR CODE HERE FOR Q3.2"""
-    raise NotImplementedError()
+    print("X[73] = " + wordlist[72])
 
+    print("Words present in example 803")
+    for i in range(len(wordlist)):
+        if X[802][i] == True:
+            print(wordlist[i])
+
+    print("Example 803 came from " + groupnames[y[802]])
 
 
 @handle("3.3")

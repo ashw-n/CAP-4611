@@ -304,9 +304,24 @@
 
     One way to think of Laplace smoothing is that you're augmenting the training set with extra counts. Consider the estimates of the conditional probabilities in this dataset when we use Laplace smoothing (with $\beta = 1$).
     \ask{Give a set of extra training examples where, if they were included in the training set, the ``plain'' estimation method (with no Laplace smoothing) would give the same estimates of the conditional probabilities as using the original dataset with Laplace smoothing.}
-    Present your answer in a reasonably easy-to-read format, for example the same format as the data set at the start of this question.
+        Present your answer in a reasonably easy-to-read format, for example the same format as the data set at the start of this question.
 
-    %
+    \begin{answer}
+        \[
+            X = \begin{bmatrix}
+                1 & 1 & 1\\
+                0 & 0 & 0\\
+                1 & 1 & 1\\
+                0 & 0 & 0
+            \end{bmatrix},
+            \quad y = \begin{bmatrix}
+                \text{spam}\\
+                \text{spam}\\
+                \text{not spam}\\
+                \text{not spam}
+            \end{bmatrix}
+        \]
+    \end{answer}
 
     \clearpage
     \subsection{Exploring Bag-of-Words \pts{2}}
@@ -322,11 +337,23 @@
     \ask{Answer the following}:
     \begin{enumerate}
         \item Which word corresponds to column 73 of $X$? (This is index 72 in Python.)
-        %
+        
+        \begin{answer}
+            The word is "question."
+        \end{answer}
+
         \item Which words are present in training example 803 (Python index 802)?
-        %
+         
+        \begin{answer}
+            The words present are "case," "children," "health," "help," "problem," and "program."
+        \end{answer}
+
         \item Which newsgroup name does training example 803 come from?
-        %
+        
+        \begin{answer}
+            Example 803 came from newsgroup "talk."
+        \end{answer}
+
     \end{enumerate}
 
     \clearpage
