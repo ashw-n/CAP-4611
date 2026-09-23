@@ -370,6 +370,31 @@
         computes the conditional probabilities of these values based on the
         frequencies in the data set. Submit your code. Report the training and validation errors that you obtain.}
 
+    \begin{answer}
+    \begin{lstlisting}
+        def fit(self, X, y):
+        n, d = X.shape
+
+        # Compute the number of class labels
+        k = self.num_classes
+
+        # Compute the probability of each class i.e p(y==c), aka 'baseline -ness'
+        counts = np.bincount(y)
+        p_y = counts / n
+
+        p_xy = 0.5 * np.zeros((d, k))
+
+        for c in range(k):
+            X_c = X[y == c]
+            p_xy[:, c] = X_c.mean(axis = 0)
+
+
+        self.p_y = p_y
+        self.p_xy = p_xy
+    \end{lstlisting}
+    Training Error: 0.200 \\
+    Validation Error: 0.188
+    \end{answer}
 
     \clearpage
     \subsection{Laplace Smoothing Implementation \pts{4}}
@@ -378,10 +403,37 @@
     \begin{itemize}
         \item Modify the \texttt{NaiveBayesLaplace} class provided in \texttt{naive\_bayes.py} and write its \texttt{fit()} method to implement Laplace smoothing. \ask{Submit this code.}
 
+        \begin{answer}
+            \begin{lstlisting}
+    def fit(self, X, y):
+        n, d = X.shape
+        k = self.num_classes
+
+        counts = np.bincount(y)
+        p_y = counts / n
+
+        p_xy = np.zeros((d,k))
+
+        for c in range(k):
+            X_c = X[y == c]
+            n_c = X_c.shape[0]
+
+            #Smoothing
+            p_xy[:, c] = (X_c.sum(axis = 0) + self.beta) / (n_c + 2 * self.beta) 
+
+        self.p_y = p_y
+        self.p_xy = p_xy
+\end{lstlisting}
+        \end{answer}
+
         \item Using the same data as the previous section, fit Na\"ive Bayes models with \textbf{and} without Laplace smoothing to the training data. Use $\beta=1$ for Laplace smoothing. For each model, look at $p(x_{ij} = 1 \ | \ y_i = 0)$ across all $j$ values (i.e. all features) in both models. \ask{Do you notice any difference? Explain.}
-        %
+        \begin{answer}
+            The difference between having and not having Laplace smoothing is that the words that don't have any examples marked as spam have a probability of zero without smoothing, but with smoothing they have a small, but nonzero, probability.
+        \end{answer}
         \item One more time, fit a Na\"ive Bayes model with Laplace smoothing using $\beta=10000$. Look at $p(x_{ij} = 1 \ | \ y_i = 0)$. \ask{Do these numbers look like what you expect? Explain.}
-        %
+        \begin{answer}
+            All the probabilities are close to 0.5, which is what we expect, since a larger $\beta$ leads to more smoothing.
+        \end{answer}
     \end{itemize}
 
     \clearpage
@@ -408,7 +460,10 @@
     \end{itemize}
     You can implement the training phase of a naive Bayes classifier in this setup in $O(nd)$, since you only need to do a constant amount of work for each $x_{ij}$ value. (You do not have to actually implement it in this way for the previous question, but you should think about how this could be done.)
     \ask{What is the cost of classifying $t$ test examples with the model and this way of computing the predictions?}
-    %
+    
+    \begin{answer}
+        For each test example, we'd need to compute the $\log p(y_i \mid x_i)$ for each of the $t$ test examples, so the cost would be $O(tdk)$.
+    \end{answer}
 
 
     \clearpage
@@ -433,16 +488,58 @@
 
     \begin{enumerate}
         \item Using the provided code, evaluate the \texttt{RandomTree} model of unlimited depth. \ask{Why doesn't the random tree model have a training error of 0?} \pts{2}
-        %
+        \begin{answer}
+            Since the tree is trained on a bootstrap of the dataset, it (likely) doesn't have every training example, so it doesn't have perfect classification, even though it memorizes the data it was trained on.
+        \end{answer}
         \item For \texttt{RandomTree}, if you set the \texttt{max\_depth} value to \texttt{np.inf}, \ask{why do the training functions terminate instead of making an infinite number of splitting rules?} \pts{2}
-        %
+        \begin{answer}
+            The training functions terminate since the set it is training on is finite, so it has to terminate at some point.
+        \end{answer}
         \item Complete the \texttt{RandomForest} class in \texttt{random\string_tree.py}. This class takes in hyperparameters \texttt{num\string_trees} and \texttt{max\string_depth} and
         fits \texttt{num\string_trees} random trees each with maximum depth \texttt{max\string_depth}. For prediction, have all trees predict and then take the mode. \ask{Submit this code.} \pts{5}
+        
+        \begin{answer}
+            \begin{lstlisting}
+class RandomForest:
+    def __init__(self, num_trees, max_depth):
+        self.num_trees = num_trees
+        self.max_depth = max_depth
+        self.trees = []
+
+
+    def fit(self, X, y):
+        self.trees = []
+        for i in range(self.num_trees):
+            tree = RandomTree(max_depth=self.max_depth)
+            tree.fit(X, y)
+            self.trees.append(tree)
+
+    def predict(self, X_pred):
+        n = X_pred.shape[0]
+        tree_preds = np.zeros((self.num_trees, n), dtype=np.uint8)
+
+        for i, tree in enumerate(self.trees):
+            tree_preds[i, :] = tree.predict(X_pred)
+
+        y_pred = np.zeros(n, dtype=np.uint8)
+
+        for i in range(n):
+            y_pred[i] = utils.mode(tree_preds[:, i])
+
+        return y_pred
+
+            \end{lstlisting}    
+        \end{answer}
 
         \item Using 50 trees, and a max depth of $\infty$, \ask{report the training and testing error}. Compare this to what we got with a single \texttt{DecisionTree} and with a single \texttt{RandomTree}. \ask{Are the results what you expected? Discuss.} \pts{3}
-        %
+        \begin{answer}
+            Forest training error: $0.00$, Forest test error: $0.197$ \\
+            The forest has significantly lower errors than either tree, which is expected. The decision tree will be very overfitted, since it would be built to basically memorize the training data, and therefore have a bad test error. The random tree is even worse, since it would be built on a less representative version of the dataset the normal tree was built off of. The forest, because of having many random trees, acheives perfect training error, and much lower test error.
+        \end{answer}
         \item \ask{Why does a random forest typically have a training error of 0, even though random trees typically have a training error greater than 0?} \pts{3}
-        %
+        \begin{answer}
+            Because there will be enough trees that recieved a bootstrap with the training example to have the majority vote be the correct label.
+        \end{answer}
     \end{enumerate}
 
 
@@ -471,8 +568,21 @@
     \begin{enumerate}
         \item In the \texttt{kmeans.py} file, complete the \texttt{error()} method. \texttt{error()} takes as input the data used in fit (\texttt{X}), the indices of each examples' nearest mean (\texttt{y}), and the current value of means (\texttt{means}). It returns the value of this above objective function. \ask{Submit this code. What trend do you observe if you print the value of this error after each iteration of the $k$-means algorithm?} \pts{4}
 
+        \begin{answer}
+            \begin{lstlisting}
+    def error(self, X, y, means):
+        return np.sum((X - means[y]) ** 2)
+            \end{lstlisting} 
+            The error drops quickly in the first iteration then starts converging.
+        \end{answer}
+
         \item Run $k$-means 50 times (with $k=4$) and take the one with the lowest error. \ask{Report the lowest error obtained.} Visualize the clustering obtained by this model, and \ask{submit your plot}. \pts{3}
-        %
+            \begin{answer}
+                The lowest error $= 3071.468$
+            \end{answer}
+
+            \centerfig{.5}{figs/q5_1_best_kmeans.pdf}
+
     \end{enumerate}
 
 
@@ -483,13 +593,19 @@
 
     \begin{enumerate}
         \item \ask{Explain why we should not choose $k$ by taking the value that minimizes the \texttt{error} value.} \pts{2}
-        %
+        \begin{answer}
+            We shouldn't choose the $k$ that would minimize the error value because it would make each point it's own individual cluster, telling us nothing about the data. As k increases, error goes down. When k = n, error should equal 0, since each point is in it's own cluster, so choosing k = n would tell us nothing about the data.
+        \end{answer}
         \item \ask{Is evaluating the \texttt{error} function on validation (or test data) a suitable approach to choosing $k$?} \pts{2}
-
+        \begin{answer}
+            No, because it would run into the same issue. Increasing k will always improve error, regardless of the data its measured on.
+        \end{answer}
         \item \ask{Hand in a plot of the minimum error found across 50 random initializations, as a function of $k$, taking $k$ from $1$ to $10$.} \pts{2}
-        %
+        \centerfig{.7}{figs/q5_2_error_vs_k.pdf}
         \item The \emph{elbow method} for choosing $k$ consists of looking at the above plot and visually trying to choose the $k$ that makes the sharpest ``elbow" (the biggest change in slope). \ask{What values of $k$ might be reasonable according to this method?} Note: there is not a single correct answer here; it is somewhat open to interpretation and there is a range of reasonable answers. \pts{2}
-        %
+        \begin{answer}
+            The values of k most suitable with the elbow method would be either 3 or 4, as they produce the biggest change in slope.
+        \end{answer}
     \end{enumerate}
 
     \clearpage
@@ -499,36 +615,58 @@
 
     \begin{enumerate}
         \item What is a reason that the the data may not be IID in the email spam filtering example from lecture?
-        %
+        \begin{answer}
+            A reason the emails may not be IID is that the some of the emails would likely be about the same thing, making them not independent.
+        \end{answer}
 
         \item Why can't we (typically) use the training error to select a hyper-parameter?
-        %
+        \begin{answer}
+            Optimizing for training error would just lead the model to severly overfit, and therefore perform poorly on test sets.
+        \end{answer}
 
         \item What is the effect of the training or validation set size $n$ on the optimization bias, assuming we use a parametric model?
-        %
+        \begin{answer}
+            As n increases, overfitting would decrease. This is because a larger n would be more representative of the underlying population.
+        \end{answer}
 
         \item What is an advantage and a disadvantage of using a large $k$ value in $k$-fold cross-validation?
-        %
+        \begin{answer}
+            An advantage of a more folds is that each training phase is trained on a larger percentage of the data, while a disadvantage would be that it is more computationally expensive. 
+        \end{answer}
 
         \item Recall that false positive in binary classification means $\hat y_i=1$ while $\tilde y_i = 0$. Give an example of when increasing false positives is an acceptable risk.
-        %
+        \begin{answer}
+            Screening for cancers or other major diseases would be an acceptable time to increase false positives, since missing a true positive would be much costlier.
+        \end{answer}
 
         \item Why can we ignore $p(x_i)$ when we use naive Bayes?
-        %
+        \begin{answer}
+            Because $p(x_i)$ is constant for each class $y$.
+        \end{answer}
 
         \item For each of the three values below in a naive Bayes model, say whether it's better considered as a parameter or a hyper-parameter:
         \begin{enumerate}
-            \item Our estimate of $p(y_i)$ for some $y_i$.
-            \item Our estimate of $p(x_{ij} \mid y_i)$ for some $x_{ij}$ and $y_i$.
-            \item The value $\beta$ in Laplace smoothing.
+            \item Our estimate of $p(y_i)$ for some $y_i$. \begin{answer}
+                Parameter - it is not chosen before hand, the model estimates it.
+            \end{answer}
+            \item Our estimate of $p(x_{ij} \mid y_i)$ for some $x_{ij}$ and $y_i$. \begin{answer}
+                Parameter - it is not chosen before hand, the model estimates it.
+            \end{answer}
+            \item The value $\beta$ in Laplace smoothing. \begin{answer}
+                Hyper-parameter - it is chosen before hand.
+            \end{answer}
         \end{enumerate}
         %
 
         \item Both supervised learning and clustering models take in an input $x_i$ and produce a label $y_i$. What is the key difference between these types of models?
-        %
+        \begin{answer}
+            In supervised learning, the labels are meaningful and predefined. In clustering, the model creates the labels based on the structure of the data its provided.
+        \end{answer}
 
         \item In $k$-means clustering the clusters are guaranteed to be convex regions. Are the areas that are given the same label by kNN also convex?
-        %
+        \begin{answer}
+            No, since kNN can make disjointed shapes.
+        \end{answer}
     \end{enumerate}
 
 \end{document}

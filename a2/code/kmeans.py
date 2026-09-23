@@ -40,7 +40,7 @@ class Kmeans:
             if changes == 0:
                 break
 
-            # print(self.error(X, y, means))
+            print(self.error(X, y, means))
 
         self.means = means
 
@@ -51,6 +51,5 @@ class Kmeans:
         return np.argmin(distance_matrix, axis=1)
 
     def error(self, X, y, means):
-        """YOUR CODE HERE FOR Q5.1"""
-        raise NotImplementedError()
+        return np.sum((X - means[y]) ** 2)
 

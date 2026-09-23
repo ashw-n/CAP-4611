@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1789603041.82034 "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" "a2.pdf" "a2" 1789603042.4962 0
+["pdflatex"] 1790016238.44131 "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" "a2.pdf" "a2" 1790016239.15979 0
   "C:/Users/ashwi/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789164142 80937 91001db6d4ae332437b4b739862cda02 ""
   "C:/Users/ashwi/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1787871388 11548 3f832d2684e39ba0c1af8281a4178bba ""
   "C:/Users/ashwi/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1787871394 13367606 d09003a55058d2549b9661d404d1b423 ""
@@ -117,15 +117,17 @@
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty" 1780057721 7532 f4ccdd43fe3dcc1fb2fb9431b10aa336 ""
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/upquote/upquote.sty" 1335534756 1088 517e01cde97c1c0baf72e69d43aa5a2e ""
   "C:/Users/ashwi/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "a2.aux" 1789603042 3512 c80d627ac4413bc6f312e44c402e59ac "pdflatex"
-  "a2.out" 1789603042 4064 b4bc441e8e68ab203eec89d859eb13ef "pdflatex"
-  "a2.tex" 1789603041 28682 436e3502aba64ed23a60f59557fe2963 ""
-  "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" 1789603041 28682 436e3502aba64ed23a60f59557fe2963 ""
+  "a2.aux" 1790016239 3531 a66f64241309624a295742dbfe360f82 "pdflatex"
+  "a2.out" 1790016239 4064 b4bc441e8e68ab203eec89d859eb13ef "pdflatex"
+  "a2.tex" 1790016238 35286 180bacab64cce16f4f130782d43a3521 ""
+  "c:/Users/ashwi/Classes/Fall26/Algorithms/a2/a2.tex" 1790016238 35286 180bacab64cce16f4f130782d43a3521 ""
   "figs/kmeans_basic.png" 1789246569 32722 3dad64cf23a2590b447c4e1eb67369c1 ""
   "figs/kmeans_good.png" 1789246569 37157 b82ec2bcfc3ada76bc0c0038c2f5e567 ""
   "figs/q1_knn_k1.pdf" 1789420929 93965 00da23f5e1485761282e63ca06bb06ac ""
   "figs/q2_cv_test_accuracy.pdf" 1789425097 13626 4a5f906e62ce990c787c74168b9f15e2 ""
   "figs/q2_train_error.pdf" 1789425097 9595 fa3b8df632176f3a7ac7f9fe69b4f32b ""
+  "figs/q5_1_best_kmeans.pdf" 1789937857 22931 1c1f675ec881ade4759b4a041383edda ""
+  "figs/q5_2_error_vs_k.pdf" 1790014423 11906 d2177fe959a1c63c98f347985de63bb2 ""
   (generated)
   "a2.aux"
   "a2.log"

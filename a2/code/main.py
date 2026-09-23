@@ -209,8 +209,42 @@ def q3_4():
     model.fit(X, y)
 
     """YOUR CODE HERE FOR Q3.4. Also modify naive_bayes.py/NaiveBayesLaplace"""
-    raise NotImplementedError()
 
+    #No smoothing
+
+    y_hat = model.predict(X)
+    err_train = np.mean(y_hat != y)
+    print(f"Naive Bayes (No smoothing) training error: {err_train:.3f}")
+
+    y_hat = model.predict(X_valid)
+    err_valid = np.mean(y_hat != y_valid)
+    print(f"Naive Bayes (No smoothing) validation error: {err_valid:.3f}")
+
+    print("p(x_ij=1 | y_i=0), no smoothing:")
+    print(model.p_xy[:, 0])
+
+    #Smoothing
+
+    model = NaiveBayesLaplace(num_classes=4, beta = 1)
+    model.fit(X, y)
+    
+    y_hat = model.predict(X)
+    err_train = np.mean(y_hat != y)
+    print(f"Naive Bayes (smoothing) training error: {err_train:.3f}")
+
+    y_hat = model.predict(X_valid)
+    err_valid = np.mean(y_hat != y_valid)
+    print(f"Naive Bayes (smoothing) validation error: {err_valid:.3f}")
+
+    print("p(x_ij=1 | y_i=0), no smoothing:")
+    print(model.p_xy[:, 0])
+
+    # Laplace smoothing with beta = 10000
+    model_laplace_big = NaiveBayesLaplace(num_classes=4, beta=10000)
+    model_laplace_big.fit(X, y)
+
+    print("p(x_ij=1 | y_i=0), beta=10000:")
+    print(model_laplace_big.p_xy[:, 0])
 
 
 @handle("4")
@@ -237,7 +271,11 @@ def q4():
     evaluate_model(DecisionTree(max_depth=np.inf, stump_class=DecisionStumpInfoGain))
 
     """YOUR CODE FOR Q4. Also modify random_tree.py/RandomForest"""
-    raise NotImplementedError()
+    print("Random tree")
+    evaluate_model(RandomTree(max_depth=np.inf))
+
+    print("Random forest")
+    evaluate_model(RandomForest(num_trees=50, max_depth=np.inf))
 
 
 
@@ -259,8 +297,30 @@ def q5():
 def q5_1():
     X = load_dataset("clusterData.pkl")["X"]
 
-    """YOUR CODE HERE FOR Q5.1. Also modify kmeans.py/Kmeans"""
-    raise NotImplementedError()
+    best_error = np.inf
+    best_model = None
+
+    for _ in range(50):
+        model = Kmeans(k=4)
+        model.fit(X)
+
+        y = model.predict(X)
+        err = model.error(X, y, model.means)
+
+        if err < best_error:
+            best_error = err
+            best_model = model
+
+    print(f"Lowest error found: {best_error:.3f}")
+
+    y = best_model.predict(X)
+    plt.figure()
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap="jet")
+    plt.title(f"Best k-means clustering (k=4), error = {best_error:.3f}")
+
+    fname = Path("..", "figs", "q5_1_best_kmeans.pdf")
+    plt.savefig(fname)
+    print(f"Figure saved as {fname}")
 
 
 
@@ -268,8 +328,34 @@ def q5_1():
 def q5_2():
     X = load_dataset("clusterData.pkl")["X"]
 
-    """YOUR CODE HERE FOR Q5.2"""
-    raise NotImplementedError()
+    ks = list(range(1, 11))
+    min_errors = np.zeros(len(ks))
+
+    for idx, k in enumerate(ks):
+        best_error = np.inf
+
+        for _ in range(50):
+            model = Kmeans(k=k)
+            model.fit(X)
+
+            y = model.predict(X)
+            err = model.error(X, y, model.means)
+
+            if err < best_error:
+                best_error = err
+
+        min_errors[idx] = best_error
+        print(f"k={k}: minimum error over 50 runs = {best_error:.3f}")
+
+    plt.figure()
+    plt.plot(ks, min_errors, marker="o")
+    plt.xlabel("k")
+    plt.ylabel("Minimum error (over 50 random initializations)")
+    plt.title("Minimum k-means error vs. k")
+
+    fname = Path("..", "figs", "q5_2_error_vs_k.pdf")
+    plt.savefig(fname)
+    print(f"Figure saved as {fname}")
 
 
 

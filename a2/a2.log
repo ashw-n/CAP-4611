@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.27)  16 SEP 2026 19:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.27)  21 SEP 2026 14:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -445,61 +445,81 @@ Package pdftex.def Info: ./figs/q2_train_error.pdf  used on input line 198.
 
 ] [7] [8
 
-] [9
+]
+Overfull \hbox (16.24992pt too wide) in paragraph at lines 381--382
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
 
-] [10
+[9
+
+]
+Overfull \hbox (35.2499pt too wide) in paragraph at lines 422--424
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[10
 
 ] [11
 
 ] [12
 
-]
-<figs/kmeans_basic.png, id=325, 462.528pt x 346.896pt>
+] [13]
+<figs/kmeans_basic.png, id=397, 462.528pt x 346.896pt>
 File: figs/kmeans_basic.png Graphic file (type png)
 <use figs/kmeans_basic.png>
-Package pdftex.def Info: figs/kmeans_basic.png  used on input line 456.
+Package pdftex.def Info: figs/kmeans_basic.png  used on input line 553.
 (pdftex.def)             Requested size: 234.8775pt x 176.15768pt.
-<figs/kmeans_good.png, id=327, 462.528pt x 346.896pt>
+<figs/kmeans_good.png, id=399, 462.528pt x 346.896pt>
 File: figs/kmeans_good.png Graphic file (type png)
 <use figs/kmeans_good.png>
-Package pdftex.def Info: figs/kmeans_good.png  used on input line 459.
+Package pdftex.def Info: figs/kmeans_good.png  used on input line 556.
 (pdftex.def)             Requested size: 234.8775pt x 176.15768pt.
- [13
+ [14
 
  <./figs/kmeans_basic.png> <./figs/kmeans_good.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 463.
+(hyperref)                removing `math shift' on input line 560.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 463.
+(hyperref)                removing `math shift' on input line 560.
 
-[14
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 480.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 480.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 480.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 480.
-
+<figs/q5_1_best_kmeans.pdf, id=406, 462.52798pt x 346.89601pt>
+File: figs/q5_1_best_kmeans.pdf Graphic file (type pdf)
+<use figs/q5_1_best_kmeans.pdf>
+Package pdftex.def Info: figs/q5_1_best_kmeans.pdf  used on input line 584.
+(pdftex.def)             Requested size: 234.8775pt x 176.15768pt.
 [15
 
-] [16
+ <./figs/q5_1_best_kmeans.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 590.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 590.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 590.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 590.
+
+<figs/q5_2_error_vs_k.pdf, id=461, 462.52798pt x 346.89601pt>
+File: figs/q5_2_error_vs_k.pdf Graphic file (type pdf)
+<use figs/q5_2_error_vs_k.pdf>
+Package pdftex.def Info: figs/q5_2_error_vs_k.pdf  used on input line 604.
+(pdftex.def)             Requested size: 328.82707pt x 246.63135pt.
+[16
+
+ <./figs/q5_2_error_vs_k.pdf>] [17
 
 ]
-runsystem(latexminted cleantemp  --timestamp 20260916195721 693A9FDD4C2FD0700968FBA0D07FF3C0)...disabled (restricted).
+runsystem(latexminted cleantemp  --timestamp 20260921144358 693A9FDD4C2FD0700968FBA0D07FF3C0)...disabled (restricted).
 
  (a2.aux)
  ***********
@@ -510,17 +530,17 @@ Package rerunfilecheck Info: File `a2.out' has not changed.
 (rerunfilecheck)             Checksum: B4BC441E8E68AB203EEC89D859EB13EF;4064.
  ) 
 Here is how much of TeX's memory you used:
- 16372 strings out of 467501
- 308581 string characters out of 5408550
+ 16496 strings out of 467501
+ 310504 string characters out of 5408550
  1030066 words of memory out of 5000000
- 45285 multiletter control sequences out of 15000+600000
+ 45338 multiletter control sequences out of 15000+600000
  637848 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,9n,79p,942b,2121s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\ashwi\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/ashwi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on a2.pdf (16 pages, 455149 bytes).
+Output written on a2.pdf (17 pages, 505905 bytes).
 PDF statistics:
- 477 PDF objects out of 1000 (max. 8388607)
- 139 named destinations out of 1000 (max. 500000)
- 162 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 646 PDF objects out of 1000 (max. 8388607)
+ 210 named destinations out of 1000 (max. 500000)
+ 172 words of extra memory for PDF output out of 10000 (max. 10000000)
 
